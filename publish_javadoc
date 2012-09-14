@@ -1,0 +1,42 @@
+#! /bin/sh
+
+scripts=$(dirname $0)
+
+# ====================
+# ** Variables
+# ====================
+: ${REMOTE:=origin}
+: ${BRANCH:=gh-pages}
+: ${VERSION:=$($scripts/version)}
+: ${TARGETDIR:=apidocs}
+: ${SNAPHOST_SUFFIX:=-dev}
+
+
+cd $WORKSPACE
+
+if [[ $VERSION == *-SNAPSHOT ]]; then
+    dirname="$TARGETDIR$SNAPSHOT_SUFFIX"
+    commit_version="$VERSION-b$BUILD_NUMBER"
+else
+    dirname="$TARGETDIR"
+    commit_version="$VERSION"
+fi
+
+rm -rf /tmp/${JOB_NAME}_apidocs
+cp -R target/site/apidocs /tmp/${JOB_NAME}_apidocs
+
+branches=$(git branch)
+if [[ $branches != *$BRANCH* ]]; then
+   git branch --track $BRANCH $REMOTE/$BRANCH
+fi
+
+git checkout $BRANCH
+git pull $REMOTE $BRANCH
+
+rm -rf ./$dirname
+mv /tmp/${JOB_NAME}_apidocs ./$dirname
+git add . && git add -u
+git commit -m "Update javadoc for $commit_version"
+
+git push $REMOTE $BRANCH
+git checkout master
