@@ -9,7 +9,7 @@ scripts=$(dirname $0)
 : ${BRANCH:=gh-pages}
 : ${VERSION:=$($scripts/version)}
 : ${TARGETDIR:=apidocs}
-: ${SNAPHOST_SUFFIX:=-dev}
+: ${SNAPSHOT_SUFFIX:=-dev}
 
 
 cd $WORKSPACE
