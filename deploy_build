@@ -1,0 +1,24 @@
+#! /bin/sh
+
+if [[ -z $FILE ]]; then
+  echo "Variable FILE does not exist"
+  exit 1
+fi
+
+FILEPATH=$WORKSPACE/target/$FILE
+echo $FILEPATH
+if [[ ! -f $FILEPATH ]]; then
+  echo "File $FILE is not a file"
+  exit 2
+fi
+
+scripts=$(dirname $0)
+: ${VERSION:=$($scripts/version)}
+
+if [[ $VERSION == *-SNAPSHOT ]]; then
+    finaltarget="${TARGET}Dev.$TARGETEXTENSION"
+else
+    finaltarget="${TARGET}.$TARGETEXTENSION"
+fi
+
+cp $FILEPATH $finaltarget
