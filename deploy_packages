@@ -10,6 +10,7 @@ if [[ ! -d $DIRECTORY ]]; then
   exit 2
 fi
 
+version=$(git rev-parse HEAD)
 repo=$(basename $PWD .git)
 tmp_clone=/tmp/updates_$repo
 
@@ -20,10 +21,8 @@ git clone . $tmp_clone > /dev/null
 pushd $tmp_clone > /dev/null
 
 if [[ -f $tmp_clone/list.json ]]; then
-  version=$(git rev-parse HEAD)
   echo "Updating version file with $version"
   echo $version > $DIRECTORY/version
-
   echo "Copying list.json"
   cp $tmp_clone/list.json $DIRECTORY
 fi
