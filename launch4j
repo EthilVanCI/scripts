@@ -1,0 +1,6 @@
+#! /bin/sh
+
+: ${JAVA_CMD:=java}
+: ${LAUNCH4J:=~/launch4j/launch4j.jar}
+
+$JAVA_CMD -jar $LAUNCH4J $1
