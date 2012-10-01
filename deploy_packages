@@ -10,6 +10,8 @@ if [[ ! -d $DIRECTORY ]]; then
   exit 2
 fi
 
+: ${PACKAGES_FILE:=packages.json}
+
 version=$(git rev-parse HEAD)
 repo=$(basename $PWD .git)
 tmp_clone=/tmp/updates_$repo
@@ -20,13 +22,6 @@ git clone . $tmp_clone > /dev/null
 
 pushd $tmp_clone > /dev/null
 
-if [[ -f $tmp_clone/list.json ]]; then
-  echo "Updating version file with $version"
-  echo $version > $DIRECTORY/version
-  echo "Copying list.json"
-  cp $tmp_clone/list.json $DIRECTORY
-fi
-
 for dir in packages/*/; do
   pushd $dir > /dev/null
   package_name=$(basename $dir).tar.xz
@@ -34,6 +29,13 @@ for dir in packages/*/; do
   tar -cJf $DIRECTORY/$package_name *
   popd > /dev/null
 done
+
+if [[ -f $tmp_clone/$PACKAGES_FILE ]]; then
+  echo "Updating version file with $version"
+  echo $version > $DIRECTORY/version
+  echo "Copying $PACKAGES_FILE"
+  cp $tmp_clone/$PACKAGES_FILE $DIRECTORY
+fi
 
 popd > /dev/null
 
