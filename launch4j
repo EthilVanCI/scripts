@@ -1,6 +1,7 @@
 #! /bin/sh
 
+path=$(readlink -f $1)
 : ${JAVA_CMD:=java}
-: ${LAUNCH4J:=~/launch4j/launch4j.jar}
 
-$JAVA_CMD -jar $LAUNCH4J $1
+cd ~/launch4j
+$JAVA_CMD -jar launch4j.jar $path
