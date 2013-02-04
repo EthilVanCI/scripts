@@ -1,4 +1,0 @@
-#! /bin/sh
-
-artifactId_line=$(cat pom.xml | egrep "<artifactId>(.+)</artifactId>" | head -n 1)
-echo $(expr match $artifactId_line "<artifactId>\(.\+\)</artifactId>")

@@ -1,4 +1,0 @@
-#! /bin/sh
-
-version_line=$(cat pom.xml | egrep "<version>(.+)</version>" | head -n 1)
-echo $(expr match $version_line "<version>\(.\+\)</version>")
