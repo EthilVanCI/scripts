@@ -1,0 +1,7 @@
+#!/bin/sh
+
+. /etc/profile.d/chruby.sh
+chruby mri
+
+ruby $HOME/scripts/post-update.rb $1
+
