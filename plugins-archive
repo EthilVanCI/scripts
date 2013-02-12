@@ -1,0 +1,9 @@
+mkdir -p tmp/plugins
+cp */target/EV-*.jar tmp/plugins/
+
+pushd tmp > /dev/null
+tar -czf plugins.tar.gz plugins
+popd > /dev/null
+
+mv tmp/plugins.tar.* ./
+rm -rf tmp
